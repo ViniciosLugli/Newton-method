@@ -72,7 +72,7 @@ mod base_tests {
 	#[test]
 	fn test_calculate_derived() {
 		assert_eq!(calculate::derived(0.0), 1.0);
-		assert_eq!(calculate::derived(25.0), 1.2623748537039288);
+		assert_eq!(calculate::derived(25.0), 0.7376251462960712);
 	}
 
 	#[test]
@@ -83,6 +83,6 @@ mod base_tests {
 	#[test]
 	fn test_calculate_next_approximation() {
 		assert_eq!(calculate::next_approximation(0.0).0.get_value(), 1.0);
-		assert_eq!(calculate::next_approximation(25.0).0.get_value(), 5.974338236155255);
+		assert_eq!(calculate::next_approximation(25.0).0.get_value(), -7.560599521797876);
 	}
 }
