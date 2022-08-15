@@ -1,0 +1,6 @@
+[package]
+name = "Newton-method"
+version = "0.0.1"
+description = "A simple code to calculate zero of real functions using Newton's method."
+authors = ["Vinicios Lugli <vinicioslugli@gmail.com>"]
+edition = "2018"
