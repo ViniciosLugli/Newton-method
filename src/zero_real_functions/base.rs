@@ -32,22 +32,22 @@ pub mod calculate {
 		interval: Interval,
 		calculated_functions: &mut Vec<CalculatedFunction>,
 		approximations: &mut Vec<Approximation>,
-		errors: &mut Vec<f64>,
+		errors: &mut Vec<Option<f64>>,
+		precision: f64,
 	) {
 		loop {
+			if approximations.len() > 1 {
+				errors.push(Some(self::relative_error(
+					approximations[approximations.len() - 1].get_value(),
+					approximations[approximations.len() - 2].get_value(),
+				)));
+			}
+
 			let (next_approximation, next_calculated_function) = self::next_approximation(approximations[approximations.len() - 1].get_value());
 			approximations.push(next_approximation);
 			calculated_functions.push(next_calculated_function);
-			errors.push(self::relative_error(
-				approximations[approximations.len() - 1].get_value(),
-				approximations[approximations.len() - 2].get_value(),
-			));
 
-			if errors[errors.len() - 1] < 0.00001 {
-				calculated_functions.push(CalculatedFunction::new(
-					self::function(approximations[approximations.len() - 1].get_value()),
-					self::derived(approximations[approximations.len() - 1].get_value()),
-				));
+			if errors[errors.len() - 1].is_some() && errors[errors.len() - 1].unwrap() < precision {
 				break;
 			}
 		}
@@ -56,12 +56,7 @@ pub mod calculate {
 
 #[cfg(test)]
 mod base_tests {
-	use crate::zero_real_functions::datatypes::calculated_function;
-
 	use super::*;
-	use datatypes::approximation::Approximation;
-	use datatypes::calculated_function::CalculatedFunction;
-	use datatypes::interval::Interval;
 
 	#[test]
 	fn test_calculate_function() {

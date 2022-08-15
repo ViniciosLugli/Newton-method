@@ -11,20 +11,23 @@ fn main() {
 	let mut errors = Vec::new();
 
 	approximations.push(Approximation::new(0.5));
-	errors.push(0.0);
+	errors.push(None);
 
 	let interval = Interval::new(0.0, 1.0);
-	calculate::newton_method(interval, &mut calculated_functions, &mut approximations, &mut errors);
+	calculate::newton_method(interval, &mut calculated_functions, &mut approximations, &mut errors, 0.00001);
 
 	println!("K      X       Fx       Dx       E");
 	for i in 0..approximations.len() {
 		println!(
-			"{} {:.6} {:.6} {:.6} {:.6}",
+			"{} {:.6} {:.6} {:.6} {}",
 			i + 1,
 			approximations[i].get_value(),
 			calculated_functions[i].fx,
 			calculated_functions[i].dx,
-			errors[i]
+			match errors[i] {
+				Some(error) => format!("{:.6}", error),
+				None => "-------".to_string(),
+			}
 		);
 	}
 }
