@@ -1,8 +1,6 @@
 use super::datatypes;
 
 pub mod calculate {
-	use crate::zero_real_functions::datatypes::calculated_function;
-
 	use super::datatypes::approximation::Approximation;
 	use super::datatypes::calculated_function::CalculatedFunction;
 	use super::datatypes::interval::Interval;
@@ -15,8 +13,14 @@ pub mod calculate {
 		1.0 + (x * 2.0).sin()
 	}
 
-	pub fn relative_error(approximation: f64, last_approximation: f64) -> f64 {
-		((last_approximation - approximation) / approximation).abs()
+	pub mod error {
+		pub fn relative(approximation: f64, last_approximation: f64) -> f64 {
+			((last_approximation - approximation) / approximation).abs()
+		}
+
+		pub fn quadratic() -> f64 {
+			todo!()
+		}
 	}
 
 	pub fn next_approximation(xk: f64) -> (Approximation, CalculatedFunction) {
@@ -37,7 +41,7 @@ pub mod calculate {
 	) {
 		loop {
 			if approximations.len() > 1 {
-				errors.push(Some(self::relative_error(
+				errors.push(Some(self::error::relative(
 					approximations[approximations.len() - 1].get_value(),
 					approximations[approximations.len() - 2].get_value(),
 				)));
@@ -71,8 +75,8 @@ mod base_tests {
 	}
 
 	#[test]
-	fn test_calculate_relative_error() {
-		assert_eq!(calculate::relative_error(25.0, 20.0), 0.2);
+	fn test_calculate_error_relative() {
+		assert_eq!(calculate::error::relative(25.0, 20.0), 0.2);
 	}
 
 	#[test]
