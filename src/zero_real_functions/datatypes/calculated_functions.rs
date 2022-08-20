@@ -14,3 +14,4 @@ impl std::fmt::Debug for CalculatedFunction {
 		write!(f, "Fx: {}, Dx: {}", self.fx, self.dx)
 	}
 }
+

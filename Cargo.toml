@@ -4,3 +4,7 @@ version = "0.0.1"
 description = "A simple code to calculate zero of real functions using Newton's method."
 authors = ["Vinicios Lugli <vinicioslugli@gmail.com>"]
 edition = "2018"
+
+[dependencies]
+rust_decimal = "1.26"
+rust_decimal_macros = "1.26"

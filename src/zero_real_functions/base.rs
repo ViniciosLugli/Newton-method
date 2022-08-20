@@ -2,8 +2,9 @@ use super::datatypes;
 
 pub mod calculate {
 	use super::datatypes::approximation::Approximation;
-	use super::datatypes::calculated_function::CalculatedFunction;
+	use super::datatypes::calculated_functions::CalculatedFunction;
 	use super::datatypes::interval::Interval;
+	use super::datatypes::order::Order;
 
 	pub fn function(x: f64) -> f64 {
 		x - x.cos().powf(2.0)
@@ -13,13 +14,13 @@ pub mod calculate {
 		1.0 + (x * 2.0).sin()
 	}
 
-	pub mod error {
-		pub fn relative(approximation: f64, last_approximation: f64) -> f64 {
-			((last_approximation - approximation) / approximation).abs()
-		}
+	pub fn cubic_root(x: f64) -> f64 {
+		x.powf(1.0 / 3.0)
+	}
 
-		pub fn quadratic() -> f64 {
-			todo!()
+	pub mod error {
+		pub fn relative(value: f64, estimative: f64) -> f64 {
+			((estimative - value) / value).abs()
 		}
 	}
 
@@ -32,8 +33,8 @@ pub mod calculate {
 		(Approximation::new(next_xk), CalculatedFunction::new(function_of_xk, derived_of_xk))
 	}
 
-	pub fn newton_method(
-		interval: Interval,
+	pub fn newton_aproximate_method(
+		_interval: Interval,
 		calculated_functions: &mut Vec<CalculatedFunction>,
 		approximations: &mut Vec<Approximation>,
 		errors: &mut Vec<Option<f64>>,
@@ -55,6 +56,20 @@ pub mod calculate {
 				break;
 			}
 		}
+	}
+
+	pub fn newton_cotes_method(order: Order, interval: Interval) -> f64 {
+		let h = interval.get_difference() / order.value();
+
+		let mut result = 0.0;
+		let mut buffer = 0.0;
+		for i in 0..order.value() as usize + 1 {
+			buffer = interval.get_left_border() + (i as f64 * h);
+			println!("{:.4} {:.4} {:.4} {:.4}", i, buffer as i32, self::cubic_root(buffer), order.constant()[i] / order.divisor());
+			result += self::cubic_root(buffer) * (order.constant()[i] / order.divisor());
+		}
+
+		return interval.get_difference() * result;
 	}
 }
 
