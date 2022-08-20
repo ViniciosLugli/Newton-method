@@ -7,31 +7,33 @@ use zero_real_functions::{
 
 fn main() {
 	// Example using Newton's method to approximate:
-	//let mut approximations = Vec::new();
-	//let mut calculated_functions = Vec::new();
-	//let mut errors = Vec::new();
+	let mut approximations = Vec::new();
+	let mut calculated_functions = Vec::new();
+	let mut errors = Vec::new();
 
-	//approximations.push(Approximation::new(0.5));
-	//errors.push(None);
+	approximations.push(Approximation::new(0.5));
+	errors.push(None);
 
-	//let interval = Interval::new(0.0, 1.0);
-	//calculate::newton_aproximate_method(interval, &mut calculated_functions, &mut approximations, &mut errors, 0.00001);
+	let interval = Interval::new(0.0, 1.0);
+	calculate::newton_aproximate_method(interval, &mut calculated_functions, &mut approximations, &mut errors, 0.00001);
 
-	//println!("K      X       Fx       Dx       E");
-	//for i in 0..approximations.len() {
-	//	println!(
-	//		"{} {:.4} {:.4} {:.4} {}",
-	//		i + 1,
-	//		approximations[i].get_value(),
-	//		calculated_functions[i].fx,
-	//		calculated_functions[i].dx,
-	//		match errors[i] {
-	//			Some(error) => format!("{:.4}", error),
-	//			None => "-------".to_string(),
-	//		}
-	//	);
-	//}
+	println!("K      X       Fx       Dx       E");
+	for i in 0..approximations.len() - 1 {
+		println!(
+			"{} {:.6} {:.6} {:.6} {}",
+			i + 1,
+			approximations[i].get_value(),
+			calculated_functions[i].fx,
+			calculated_functions[i].dx,
+			match errors[i] {
+				Some(error) => format!("{:.6}", error),
+				None => "-------".to_string(),
+			}
+		);
+	}
 	// End of example.
+
+	println!("\n\n");
 
 	// Example using Newton's cotes method:
 	let interval = Interval::new(1.0, 5.0);
